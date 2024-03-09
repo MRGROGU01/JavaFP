@@ -1,0 +1,42 @@
+import java.util.HashMap;
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class PhoneBook {
+
+    private HashMap<String, List<String>> phoneBook;
+
+    public PhoneBook() {
+        this.phoneBook = new HashMap<>();
+    }
+
+    public void addPerson(String name, String phone) {
+        List<String> phones = this.phoneBook.getOrDefault(name, new ArrayList<>());
+        phones.add(phone);
+        this.phoneBook.put(name, phones);
+    }
+
+    public List<String> getPhones(String name) {
+        return this.phoneBook.getOrDefault(name, new ArrayList<>());
+    }
+
+    public List<String> getSortedNames() {
+        List<String> names = new ArrayList<>(this.phoneBook.keySet());
+        Collections.sort(names, (a, b) -> Integer.compare(this.phoneBook.get(b).size(), this.phoneBook.get(a).size()));
+        return names;
+    }
+
+    public static void main(String[] args) {
+        PhoneBook phoneBook = new PhoneBook();
+        phoneBook.addPerson("John Doe", "555-1212");
+        phoneBook.addPerson("Jane Doe", "555-1213");
+        phoneBook.addPerson("John Doe", "555-1214");
+        phoneBook.addPerson("Jane Doe", "555-1215");
+
+        List<String> sortedNames = phoneBook.getSortedNames();
+        for (String name : sortedNames) {
+            System.out.println(name + ": " + phoneBook.getPhones(name));
+        }
+    }
+}
